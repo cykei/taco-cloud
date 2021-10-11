@@ -10,6 +10,7 @@
     <h1>Design your taco!</h1>
     <img th:src="@{/images/TacoCloud.png}"/>
 
+    <!--action 을 지정하지 않았기때문에 form의 내용은 /design(자기자신) 에 제출된다.-->
     <form method="POST" th:object="${taco}">
         <span class="validationError"
               th:if="${#fields.hasErrors('ingredients')}"

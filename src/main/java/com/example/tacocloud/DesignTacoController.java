@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
@@ -20,9 +21,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/design")
 public class DesignTacoController {
 
+    @PostMapping
+    public String processDesign(Taco design) {
+        // 이 지점에서 타코 디자인 (선택된 식자재 내역)을 저장한다.
+        // 이 작업은 3장에서 진행됨
+        log.info("Processing desing: "+ design);
+        return "redirect:/orders/current";
+    }
     @GetMapping
     public String showDesignForm(Model model) {
-        List<Ingredient> ingedients = Arrays.asList(
+        List<Ingredient> ingredients = Arrays.asList(
                 new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
                 new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
                 new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
@@ -37,7 +45,7 @@ public class DesignTacoController {
         Type[] types = Ingredient.Type.values();
         for(Type type: types) {
             model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(ingedients, type));
+                    filterByType(ingredients, type));
         }
 
         model.addAttribute("taco", new Taco());
