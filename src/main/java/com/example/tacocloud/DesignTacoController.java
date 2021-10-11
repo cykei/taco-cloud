@@ -2,8 +2,8 @@ package com.example.tacocloud;
 
 import com.example.tacocloud.domain.Ingredient;
 import com.example.tacocloud.domain.Ingredient.Type;
-import com.example.tacocloud.domain.Taco;
 
+import com.example.tacocloud.domain.Taco;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
+import org.springframework.validation.Errors;
+import javax.validation.Valid;
 
 @Slf4j // lombok 어노테이션. Logger 생성.
 @Controller
@@ -22,7 +23,12 @@ import java.util.stream.Collectors;
 public class DesignTacoController {
 
     @PostMapping
-    public String processDesign(Taco design) {
+    public String processDesign(@Valid Taco design, Errors errors) {
+        if(errors.hasErrors()){
+            System.out.println("process error");
+            return "design";
+        }
+
         // 이 지점에서 타코 디자인 (선택된 식자재 내역)을 저장한다.
         // 이 작업은 3장에서 진행됨
         log.info("Processing desing: "+ design);
